@@ -1,0 +1,106 @@
+{% load static %}
+
+<!-- JavaScript files-->
+      <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'vendor/lightbox2/js/lightbox.min.js' %}"></script>
+      <script src="{% static 'vendor/nouislider/nouislider.min.js' %}"></script>
+      <script src="{% static 'vendor/bootstrap-select/js/bootstrap-select.min.js' %}"></script>
+      <script src="{% static 'vendor/owl.carousel2/owl.carousel.min.js' %}"></script>
+      <script src="{% static 'vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.min.js' %}"></script>
+      <script src="{% static 'js/front.js' %}"></script>
+
+      <script>
+        var range = document.getElementById('range');
+        noUiSlider.create(range, {
+            range: {
+                'min': 0,
+                'max': 2000
+            },
+            step: 5,
+            start: [100, 1000],
+            margin: 300,
+            connect: true,
+            direction: 'ltr',
+            orientation: 'horizontal',
+            behaviour: 'tap-drag',
+            tooltips: true,
+            format: {
+              to: function ( value ) {
+                return '$' + value;
+              },
+              from: function ( value ) {
+                return value.replace('', '');
+              }
+            }
+        });
+        
+      </script>
+
+      
+      <script>
+        // ------------------------------------------------------- //
+        //   Inject SVG Sprite - 
+        //   see more here 
+        //   https://css-tricks.com/ajaxing-svg-sprite/
+        // ------------------------------------------------------ //
+        function injectSvgSprite(path) {
+        
+            var ajax = new XMLHttpRequest();
+            ajax.open("GET", path, true);
+            ajax.send();
+            ajax.onload = function(e) {
+            var div = document.createElement("div");
+            div.className = 'd-none';
+            div.innerHTML = ajax.responseText;
+            document.body.insertBefore(div, document.body.childNodes[0]);
+            }
+        }
+        // this is set to BootstrapTemple website as you cannot 
+        // inject local SVG sprite (using only 'icons/orion-svg-sprite.svg' path)
+        // while using file:// protocol
+        // pls don't forget to change to your domain :)
+        injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg'); 
+        
+      </script>
+      <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    </div>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Elements
+  const btn = document.getElementById('chatbot-button');
+  const box = document.getElementById('chatbot');
+  const close = document.getElementById('chatbot-close');
+  const faqButtons = document.querySelectorAll('.faq-btn');
+  const answerBox = document.getElementById('chatbot-answer');
+
+  if (!btn || !box || !close) return; // safety if HTML missing
+
+  // Open / close
+  btn.addEventListener('click', () => {
+    box.style.display = 'flex';
+    btn.style.display = 'none';
+  });
+
+  close.addEventListener('click', () => {
+    box.style.display = 'none';
+    btn.style.display = 'flex';
+  });
+
+  // FAQ button clicks
+  faqButtons.forEach(b => {
+    b.addEventListener('click', () => {
+      const q = b.textContent.trim();
+      const a = b.dataset.answer || 'Thanks for your question!';
+      // show answer (simple)
+      answerBox.innerHTML = `<p><strong>${q}</strong><br>${a}</p>`;
+      // auto scroll if needed
+      box.scrollTop = box.scrollHeight;
+    });
+  });
+});
+</script>
+
+  </body>
+</html>
